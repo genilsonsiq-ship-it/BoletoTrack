@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Bill } from '../types';
+import { Bill } from '../types.ts';
 import { CheckCircle2, Circle } from 'lucide-react';
 
 interface CalendarGridProps {
@@ -17,7 +17,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ month, year, bills, onToggl
   
   const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   
-  // Create an array for the grid
   const days = [];
   for (let i = 0; i < firstDayOfMonth; i++) {
     days.push(null);
@@ -28,9 +27,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ month, year, bills, onToggl
 
   const getBillsForDay = (day: number) => {
     return bills.filter(bill => {
-      const d = new Date(bill.dueDate);
-      // Adjusting for potential timezone shifts in basic strings
-      // We assume YYYY-MM-DD format
       const [bYear, bMonth, bDay] = bill.dueDate.split('-').map(Number);
       return bDay === day && (bMonth - 1) === month && bYear === year;
     });
@@ -43,7 +39,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ month, year, bills, onToggl
 
   return (
     <div className="flex-1 flex flex-col overflow-auto min-h-[600px]">
-      {/* Week Day Headers */}
       <div className="calendar-grid border-b border-slate-100 bg-slate-50">
         {weekDays.map(wd => (
           <div key={wd} className="py-3 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">
@@ -52,7 +47,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ month, year, bills, onToggl
         ))}
       </div>
 
-      {/* Actual Days */}
       <div className="calendar-grid flex-1">
         {days.map((day, idx) => {
           const dayBills = day ? getBillsForDay(day) : [];

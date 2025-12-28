@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight, CheckCircle2, Circle, AlertCircle, Sparkles, Repeat } from 'lucide-react';
-import { Bill, MonthData } from './types';
-import CalendarGrid from './components/CalendarGrid';
-import BillModal from './components/BillModal';
+import { Bill, MonthData } from './types.ts';
+import CalendarGrid from './components/CalendarGrid.tsx';
+import BillModal from './components/BillModal.tsx';
 import { GoogleGenAI } from '@google/genai';
 
 const App: React.FC = () => {
@@ -36,14 +36,12 @@ const App: React.FC = () => {
       const [year, month, day] = newBill.dueDate.split('-').map(Number);
       
       for (let i = 0; i < recurrenceMonths; i++) {
-        // Create a date object and increment the month
         const date = new Date(year, month - 1 + i, day);
-        
         newBills.push({
           ...newBill,
           id: crypto.randomUUID(),
           dueDate: date.toISOString().split('T')[0],
-          isPaid: false // Recurring items usually start unpaid
+          isPaid: false
         });
       }
       setBills(prev => [...prev, ...newBills]);
@@ -112,7 +110,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col p-4 md:p-8 max-w-7xl mx-auto">
-      {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-2">
@@ -150,7 +147,6 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      {/* AI Box */}
       {aiInsight && (
         <div className="mb-6 p-4 bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 rounded-xl flex gap-3 animate-in fade-in slide-in-from-top-2">
           <Sparkles className="text-indigo-500 shrink-0 mt-0.5" size={20} />
@@ -159,7 +155,6 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Main Calendar Section */}
       <main className="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/50">
           <div className="flex items-center gap-4">
@@ -197,7 +192,6 @@ const App: React.FC = () => {
         />
       </main>
 
-      {/* Footer Stats */}
       <footer className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white p-5 rounded-xl border border-slate-200 flex items-center justify-between">
           <div>
@@ -245,7 +239,6 @@ const App: React.FC = () => {
         </div>
       </footer>
 
-      {/* Modals */}
       {isModalOpen && (
         <BillModal 
           isOpen={isModalOpen} 

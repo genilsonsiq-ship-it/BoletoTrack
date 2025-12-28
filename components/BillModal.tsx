@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Bill } from '../types';
+import { Bill } from '../types.ts';
 import { X, Trash2, Calendar, FileText, Repeat } from 'lucide-react';
 
 interface BillModalProps {
