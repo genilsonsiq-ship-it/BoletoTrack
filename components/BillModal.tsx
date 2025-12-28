@@ -50,7 +50,7 @@ const BillModal: React.FC<BillModalProps> = ({ isOpen, onClose, onSave, onDelete
           <h3 className="text-xl font-bold text-slate-800">
             {initialBill ? 'Editar Pagamento' : (isRecurring ? 'Novo Pagamento Recorrente' : 'Novo Pagamento')}
           </h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
+          <button type="button" onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
             <X size={24} />
           </button>
         </div>
@@ -87,16 +87,16 @@ const BillModal: React.FC<BillModalProps> = ({ isOpen, onClose, onSave, onDelete
 
           {!initialBill && (
             <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsRecurring(!isRecurring)}>
                 <label className="flex items-center gap-2 text-sm font-semibold text-indigo-900 cursor-pointer">
                   <Repeat size={16} className="text-indigo-500" />
                   Repetir mensalmente
                 </label>
                 <input 
                   type="checkbox" 
-                  className="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
+                  className="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500 cursor-pointer"
                   checked={isRecurring}
-                  onChange={() => setIsRecurring(!isRecurring)}
+                  onChange={(e) => { e.stopPropagation(); setIsRecurring(e.target.checked); }}
                 />
               </div>
               
@@ -111,7 +111,7 @@ const BillModal: React.FC<BillModalProps> = ({ isOpen, onClose, onSave, onDelete
                     max="60"
                     className="w-full px-4 py-2 rounded-lg border border-indigo-200 bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-indigo-900"
                     value={recurrenceMonths}
-                    onChange={e => setRecurrenceMonths(parseInt(e.target.value))}
+                    onChange={e => setRecurrenceMonths(parseInt(e.target.value) || 2)}
                   />
                   <p className="mt-1.5 text-[10px] text-indigo-500">
                     Isso criará {recurrenceMonths} contas idênticas para os próximos meses.
@@ -122,15 +122,15 @@ const BillModal: React.FC<BillModalProps> = ({ isOpen, onClose, onSave, onDelete
           )}
 
           <div className="flex items-center gap-3 py-1">
-            <label className="relative inline-flex items-center cursor-pointer">
+            <label className="relative inline-flex items-center cursor-pointer group">
               <input 
                 type="checkbox" 
                 className="sr-only peer" 
                 checked={isPaid}
                 onChange={() => setIsPaid(!isPaid)}
               />
-              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              <span className="ml-3 text-sm font-medium text-slate-700">Marcar como Pago</span>
+              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 group-active:scale-95 transition-transform"></div>
+              <span className="ml-3 text-sm font-medium text-slate-700 select-none">Marcar como Pago</span>
             </label>
           </div>
 

@@ -41,7 +41,7 @@ const App: React.FC = () => {
           ...newBill,
           id: crypto.randomUUID(),
           dueDate: date.toISOString().split('T')[0],
-          isPaid: false
+          isPaid: newBill.isPaid // Agora respeita o valor selecionado
         });
       }
       setBills(prev => [...prev, ...newBills]);
